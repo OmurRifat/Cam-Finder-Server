@@ -21,11 +21,36 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 const run = async () => {
     try {
         const cameraCollections = client.db("camFinder").collection("cameras");
-
+        const usersCollections = client.db("camFinder").collection("users");
+        //api for home page data
         app.get('/home-cameras', async (req, res) => {
             const query = {};
-            const data = await (await cameraCollections.find(query).toArray()).splice(0, 3);
+            const data = (await cameraCollections.find(query).toArray()).splice(0, 3);
             res.send(data)
+        })
+        //api for all data in product page
+        app.get('/products', async (req, res) => {
+            const query = {};
+            const data = await cameraCollections.find(query).toArray();
+            res.send(data);
+        })
+        //api for categorised data
+        app.get('/category/:id', async (req, res) => {
+            const id = parseInt(req.params.id);
+            const query = { categoryId: id }
+            const data = await cameraCollections.find(query).toArray();
+            res.send(data)
+        })
+        //api for all users
+        app.get('/user', async (req, res) => {
+            const query = {};
+            const data = await usersCollections.find(query).toArray();
+            res.send(data);
+        })
+        app.post('/user', async (req, res) => {
+            const data = req.body;
+            const result = await usersCollections.insertOne(data);
+            res.send(result)
         })
 
     }
