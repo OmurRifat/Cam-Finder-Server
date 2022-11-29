@@ -47,10 +47,25 @@ const run = async () => {
             const data = await usersCollections.find(query).toArray();
             res.send(data);
         })
+        //api for add user
         app.post('/user', async (req, res) => {
             const data = req.body;
             const result = await usersCollections.insertOne(data);
             res.send(result)
+        })
+        //api for isAdmin?
+        app.get('/user/admin/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email };
+            const data = await usersCollections.findOne(query);
+            res.send({ isAdmin: data?.admin === true })
+        })
+        //api for seller
+        app.get('/user/seller/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email };
+            const data = await usersCollections.findOne(query);
+            res.send({ isSeller: data?.seller === true })
         })
 
     }
