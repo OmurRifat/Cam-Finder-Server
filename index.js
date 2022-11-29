@@ -22,6 +22,7 @@ const run = async () => {
     try {
         const cameraCollections = client.db("camFinder").collection("cameras");
         const usersCollections = client.db("camFinder").collection("users");
+        const ordersCollections = client.db("camFinder").collection("orders");
         //api for home page data
         app.get('/home-cameras', async (req, res) => {
             const query = {};
@@ -40,6 +41,12 @@ const run = async () => {
             const query = { categoryId: id }
             const data = await cameraCollections.find(query).toArray();
             res.send(data)
+        })
+        //api for storing orders
+        app.post('/orders', async (req, res) => {
+            const data = req.body;
+            const result = await ordersCollections.insertOne(data);
+            res.send(result)
         })
         //api for all users
         app.get('/user', async (req, res) => {
