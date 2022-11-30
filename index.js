@@ -35,6 +35,12 @@ const run = async () => {
             const data = await cameraCollections.find(query).toArray();
             res.send(data);
         })
+        //api for add product
+        app.post('/products', async (req, res) => {
+            const data = req.body;
+            const result = cameraCollections.insertOne(data);
+            res.send(result);
+        })
         //api for categorised data
         app.get('/category/:id', async (req, res) => {
             const id = parseInt(req.params.id);
