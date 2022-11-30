@@ -73,6 +73,19 @@ const run = async () => {
             const result = await usersCollections.deleteOne(query);
             res.send(result);
         })
+        //api for get buyers
+        app.get('/user/all-buyers', async (req, res) => {
+            const query = { seller: false, admin: false };
+            const data = await usersCollections.find(query).toArray();
+            res.send(data);
+        })
+        //api for delete a seller
+        app.delete('/user/all-buyers/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email };
+            const result = await usersCollections.deleteOne(query);
+            res.send(result);
+        })
         //api for add user
         app.post('/user', async (req, res) => {
             const data = req.body;
