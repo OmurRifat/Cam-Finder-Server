@@ -60,6 +60,12 @@ const run = async () => {
             const data = await usersCollections.find(query).toArray();
             res.send(data);
         })
+        //api for get sellers
+        app.get('/user/all-sellers', async (req, res) => {
+            const query = { seller: true };
+            const data = await usersCollections.find(query).toArray();
+            res.send(data);
+        })
         //api for add user
         app.post('/user', async (req, res) => {
             const data = req.body;
